@@ -4,8 +4,6 @@ import com.kpi.stepanov.rest.entity.Example;
 import com.kpi.stepanov.rest.repository.ExampleRepository;
 import com.kpi.stepanov.rest.service.ExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +37,10 @@ public class ExampleServiceImpl implements ExampleService {
     @Override
     public Example getById(long id) {
         return repo.findOne(id);
+    }
+
+    @Override
+    public List<Example> getByMessage(String message) {
+        return repo.findByMessage(message);
     }
 }
