@@ -2,6 +2,7 @@ package com.kpi.stepanov.rest.controller;
 
 import com.kpi.stepanov.rest.entity.User;
 import com.kpi.stepanov.rest.service.UserService;
+import com.kpi.stepanov.rest.util.StringUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,6 +22,9 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     public User addExample(@Valid @RequestParam(value = "email") String email,
                            @Valid @RequestParam(value = "password") String password) {
+        if (StringUtil.isNullOrEmpty(email) && StringUtil.isNullOrEmpty(password)) {
+            throw new IllegalArgumentException();
+        }
         return userService.add(new User(email, password));
     }
 
