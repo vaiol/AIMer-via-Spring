@@ -28,6 +28,7 @@ public class ExampleController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Example addExample(@RequestParam(value = "message", defaultValue = "Hello, World!") String message) {
+        System.out.println(message);
         return exampleService.add(new Example(message));
     }
 

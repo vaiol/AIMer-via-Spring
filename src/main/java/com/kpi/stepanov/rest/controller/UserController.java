@@ -20,16 +20,16 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     public String getCurrent(Principal principal ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName() + ", " + principal.getName();
+        String name = auth.getName() + ", " + auth.getAuthorities();
         return name;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public User addExample(@Valid @RequestParam(value = "email") String email,
                            @Valid @RequestParam(value = "password") String password) {
-//        if (StringUtil.isNullOrEmpty(email) && StringUtil.isNullOrEmpty(password)) {
-//            throw new IllegalArgumentException();
-//        }
+        if (StringUtil.isNullOrEmpty(email) && StringUtil.isNullOrEmpty(password)) {
+            throw new IllegalArgumentException();
+        }
         return userService.add(new User(email, password));
     }
 
