@@ -38,19 +38,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.httpBasic().and().authorizeRequests()
+//            .antMatchers("/user/**").access("hasRole('ROLE_USER')")
+//            .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+//            .anyRequest().permitAll();
+
+//                .failureUrl("/login?error")
+//                .permitAll();
+//        http.logout()
+//            .permitAll()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/login?logout")
+//
+        http.httpBasic();
         http.authorizeRequests()
-            .antMatchers("/user").access("hasRole('ROLE_USER')")
-            .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
-            .anyRequest().permitAll();
-        http.formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?error")
-                .permitAll();
-        http.logout()
-            .permitAll()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .invalidateHttpSession(true);
+                .antMatchers("/user").authenticated()
+                .antMatchers("/**").permitAll();
+        http.logout().invalidateHttpSession(true);
         http.addFilterAfter(new CSRFHeaderFilter(), CsrfFilter.class);
         http.csrf().csrfTokenRepository(csrfTokenRepository());
     }

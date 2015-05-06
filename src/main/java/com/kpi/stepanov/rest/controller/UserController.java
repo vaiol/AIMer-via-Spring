@@ -12,19 +12,16 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
     @Resource
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getCurrent(Principal principal ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName() + ", " + auth.getAuthorities();
-        return name;
+    @RequestMapping("/user")
+    public org.springframework.security.core.userdetails.User user() {
+        return (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public User addExample(@Valid @RequestParam(value = "email") String email,
                            @Valid @RequestParam(value = "password") String password) {
         if (StringUtil.isNullOrEmpty(email) && StringUtil.isNullOrEmpty(password)) {
@@ -32,6 +29,4 @@ public class UserController {
         }
         return userService.add(new User(email, password));
     }
-
-
 }
