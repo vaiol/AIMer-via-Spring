@@ -2,6 +2,8 @@ package com.kpi.stepanov.rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +18,16 @@ public class SessionController {
     @Qualifier("sessionRegistry")
     private SessionRegistry sessionRegistry;
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping("users")
-    public String getAllUsers() {
+    public List<User> getAllUsers() {
         List<Object> principals = sessionRegistry.getAllPrincipals();
-        List<String> usersNamesList = new ArrayList<String>();
-        StringBuilder result = new StringBuilder();
+        List<User> users  = new ArrayList<User>(principals.size());
         for (Object principal: principals) {
             if (principal instanceof User) {
-                result.append(((User) principal).getUsername() + "<br>");
+                users.add(((User) principal));
             }
         }
-        return result.toString();
+        return users;
     }
 }

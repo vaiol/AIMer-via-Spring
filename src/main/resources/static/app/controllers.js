@@ -1,12 +1,17 @@
-var myApp = angular.module('myApp', [ 'ngRoute' ]);
+var myApp = angular.module('myApp', [ 'ngRoute', 'spring-security-csrf-token-interceptor' ]);
 
 myApp.config(function($routeProvider, $httpProvider) {
     $routeProvider.when('/', {
-        templateUrl : 'hello.html',
+        templateUrl : 'partials/hello.html',
         controller : 'hello'
     }).when('/login', {
-        templateUrl : 'login.html',
+        templateUrl : 'partials/login.html',
         controller : 'navigation'
+    }).when('/users', {
+        templateUrl : 'partials/list.html',
+        controller : 'list'
+    }).when('/logout', {
+        templateUrl : 'partials/logout.html'
     }).otherwise('/');
 
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -37,6 +42,14 @@ myApp.controller('navigation', function($rootScope, $scope, $http, $location) {
             } else {
                 $rootScope.authenticated = false;
             }
+
+            $rootScope.admin = false;
+            for (i = 0; i < data.authorities.length; i++) {
+                if (data.authorities[i].authority === 'ROLE_ADMIN') {
+                    $rootScope.admin = true;
+                    break;
+                }
+            }
             callback && callback();
         }).error(function(data, status) {
             console.log(status);
@@ -52,7 +65,6 @@ myApp.controller('navigation', function($rootScope, $scope, $http, $location) {
             console.log("try auth");
             if ($rootScope.authenticated) {
                 $location.path("/");
-                $location.path("/");
                 $scope.error = false;
             } else {
                 $location.path("/login");
@@ -64,13 +76,24 @@ myApp.controller('navigation', function($rootScope, $scope, $http, $location) {
         console.log("logout");
         $http.post('logout', {}).success(function() {
             $rootScope.authenticated = false;
+            $rootScope.admin = false;
             $location.path("/");
-        }).error(function(data) {
-            $rootScope.authenticated = false;
+        }).error(function(data, status) {
+            console.log(data);
+            console.log(status);
         });
     }
 
 }
 );
+
+myApp.controller('list', ['$scope', '$http', function($scope, $http) {
+    $http.get('users').
+        success(function(data) {
+            $scope.list = data;
+        }).error(function(data, status){
+            console.log(status);
+        });
+}]);
 
 

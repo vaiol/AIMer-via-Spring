@@ -1,0 +1,14 @@
+<div ng-controller="list">
+    <ul class="list-group">
+        <li ng-repeat="element in list" class="list-group-item">
+            <p>Username: {{element.username}}</p>
+            <p>Expired: {{! element.accountNonExpired}}</p>
+            <p>Locked: {{! element.accountNonLocked}}</p>
+            <p>Enabled: {{element.enabled}}</p>
+            Authorities:
+            <ul class="list-group" class="list-group">
+                <li ng-repeat="auth in element.authorities"class="list-group-item-success">{{auth.authority}}</li>
+            </ul>
+        </li>
+    </ul>
+</div>
