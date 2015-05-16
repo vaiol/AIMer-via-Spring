@@ -30,5 +30,11 @@ public class RestExceptionController {
         // Nothing to do
     }
 
+    @ResponseStatus(value= HttpStatus.FORBIDDEN)
+    @ExceptionHandler(IllegalAccessException.class)
+    public void handleIllegalAccessException() {
+        // Nothing to do
+    }
+
 
 }
