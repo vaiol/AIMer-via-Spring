@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "aims")
 public class AIM {
-    private int id;
+    private long id;
     private String title;
     private String description;
     private boolean completed;
@@ -30,11 +30,11 @@ public class AIM {
     }
 
     @Id
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

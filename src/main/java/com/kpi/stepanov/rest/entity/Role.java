@@ -6,7 +6,7 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 public class Role {
-    private int id;
+    private long id;
     private String role;
     private Set<User> users;
 
@@ -18,11 +18,11 @@ public class Role {
     }
 
     @Id
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

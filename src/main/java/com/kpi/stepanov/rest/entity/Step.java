@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "steps")
 public class Step {
-    private int id;
+    private long id;
     private int sequenceNumber;
     private String description;
     private boolean completed;
@@ -21,11 +21,11 @@ public class Step {
     }
 
     @Id
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
