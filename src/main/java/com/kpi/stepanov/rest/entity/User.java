@@ -1,18 +1,20 @@
 package com.kpi.stepanov.rest.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
+@Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(unique = true)
     private String email;
-    @Column
     private String password;
-    @Column
-    private String role;
+    private boolean enabled;
+    private boolean locked;
+    private boolean expired;
+    private Set<AIM> aims;
+    private Set<AIM> subscriptions;
+    private Set<Role> roles;
 
     public User() {
     }
@@ -20,9 +22,9 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-        this.role = "USER";
     }
 
+    @Id
     public long getId() {
         return id;
     }
@@ -31,6 +33,7 @@ public class User {
         this.id = id;
     }
 
+    @Column(unique = true)
     public String getEmail() {
         return email;
     }
@@ -39,6 +42,7 @@ public class User {
         this.email = email;
     }
 
+    @Column(nullable = false)
     public String getPassword() {
         return password;
     }
@@ -46,12 +50,57 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getRole() {
-        return role;
+    @Column(nullable = false)
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Column(nullable = false)
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    @Column(nullable = false)
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public Set<AIM> getAims() {
+        return aims;
+    }
+
+    public void setAims(Set<AIM> aims) {
+        this.aims = aims;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subscribers")
+    public Set<AIM> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<AIM> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

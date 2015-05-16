@@ -1,5 +1,6 @@
 package com.kpi.stepanov.rest.service.impl;
 
+import com.kpi.stepanov.rest.entity.Role;
 import com.kpi.stepanov.rest.entity.User;
 import com.kpi.stepanov.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             System.out.println("user not found");
             throw new UsernameNotFoundException("User: " + email + " not found");
         }
-        System.out.println(user.getEmail() + ", " + user.getPassword() + ", " + user.getRole());
-        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority(user.getRole()));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), roles);
+        System.out.println(user.getEmail() + ", " + user.getPassword() + ", " + user.getRoles());
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                user.isEnabled(),
+                ! user.isExpired(),
+                ! user.isExpired(),
+                ! user.isLocked(),
+                toGrantedAuthorities(user.getRoles())
+        );
+    }
+
+    public static Set<GrantedAuthority> toGrantedAuthorities(Set<Role> roles){
+        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        if (roles != null) {
+            for (Role role : roles) {
+                authorities.add(new SimpleGrantedAuthority(role.getRole()));
+            }
+        }
+        return authorities;
     }
 
 }
