@@ -12,35 +12,31 @@ import java.util.List;
 public class ExampleServiceImpl implements ExampleService {
 
     @Autowired
-    ExampleRepository repo;
+    ExampleRepository repository;
 
     @Override
     public Example add(Example example) {
-        return repo.saveAndFlush(example);
+        return repository.saveAndFlush(example);
     }
 
     @Override
     public void delete(long id) {
-        repo.delete(id);
+        repository.delete(id);
     }
 
     @Override
     public Example edit(Example example) {
-        return repo.saveAndFlush(example);
+        return repository.saveAndFlush(example);
     }
 
     @Override
     public List<Example> getAll() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Example getById(long id) {
-        return repo.findOne(id);
+        return repository.findOne(id);
     }
 
-    @Override
-    public List<Example> getByMessage(String message) {
-        return repo.findByMessage(message);
-    }
 }

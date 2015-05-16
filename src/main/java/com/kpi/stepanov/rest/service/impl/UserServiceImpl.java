@@ -12,30 +12,30 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository repo;
+    UserRepository repository;
 
     @Override
     public User add(User user) {
-        return repo.saveAndFlush(user);
+        return repository.saveAndFlush(user);
     }
 
     @Override
     public User edit(User user) {
-        return repo.saveAndFlush(user);
+        return repository.saveAndFlush(user);
     }
 
     @Override
     public List<User> getAll() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
     @Override
     public User getById(long id) {
-        return repo.getOne(id);
+        return repository.getOne(id);
     }
 
     @Override
     public User getByEmail(String email) {
-        return repo.fingByEmail(email);
+        return repository.fingByEmail(email);
     }
 }

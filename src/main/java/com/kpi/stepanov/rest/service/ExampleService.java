@@ -10,6 +10,4 @@ public interface ExampleService {
     Example edit(Example example);
     List<Example> getAll();
     Example getById(long id);
-
-    List<Example> getByMessage(String message);
 }
